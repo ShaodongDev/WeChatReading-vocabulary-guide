@@ -2,9 +2,9 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-把微信读书中的英文单词和短语划线，整理成可以重新导入微信读书的 EPUB。每张卡片包含词语、**标准美式音标**和**英语语境例句**。
+把微信读书（WeChatReading）中的英文单词和短语划线，整理成可以重新导入微信读书的 EPUB。每张卡片包含词语、**标准美式音标**和**英语语境例句**。
 
-这是原版 **[weread-vocab Skill](skills/weread-vocab/SKILL.md)** 的可移植版本，包含完整流程所需的脚本、封面模板、阅读样式和 API 参考。
+本仓库提供可安装的 **[wechatreading-vocab Skill](skills/wechatreading-vocab/SKILL.md)**，基于原版语境词汇收集流程，包含所需的脚本、封面模板、阅读样式和 API 参考。
 
 ## 功能
 
@@ -17,7 +17,7 @@
 
 ## 效果展示
 
-![微信读书绿色主题中的词汇卡片，包含美式音标和英语语境例句](docs/images/weread-demo.png)
+![微信读书绿色主题中的词汇卡片，包含美式音标和英语语境例句](docs/images/wechatreading-demo.png)
 
 卡片使用橙色突出词语、灰色显示音标，并在例句旁加竖线。样式兼顾浅色、绿色和深色阅读主题，也可额外导出 Markdown。
 
@@ -27,37 +27,37 @@
 .
 ├── README.md
 ├── README.zh-CN.md
-├── LICENSE                         # 根目录文档：MIT
+├── LICENSE                                        # 根目录文档：MIT
 ├── .gitignore
 ├── docs/
-│   └── images/weread-demo.png       # 微信读书效果截图
+│   └── images/wechatreading-demo.png              # 微信读书效果截图
 ├── skills/
-│   └── weread-vocab/
-│       ├── SKILL.md                # 助手指令与完整流程
-│       ├── LICENSE                 # Apache-2.0
-│       ├── NOTICE                  # 来源与修改声明
+│   └── wechatreading-vocab/
+│       ├── SKILL.md                               # 助手指令与完整流程
+│       ├── LICENSE                                # Apache-2.0
+│       ├── NOTICE                                 # 来源与修改声明
 │       ├── assets/
-│       │   ├── cover.html          # 封面模板
-│       │   └── weread.css          # EPUB 阅读样式
+│       │   ├── cover.html                         # 封面模板
+│       │   └── wechatreading.css                  # EPUB 阅读样式
 │       ├── references/
-│       │   ├── sentence-brief.md   # 语境例句编写规则
-│       │   └── weread-api.md       # 网关参数与返回字段参考
+│       │   ├── sentence-brief.md                  # 语境例句编写规则
+│       │   └── wechatreading-api.md               # 网关参数与返回字段参考
 │       └── scripts/
-│           ├── setup_env.sh        # 私有环境与词典索引
+│           ├── setup_env.sh                       # 私有环境与词典索引
 │           ├── requirements.txt
-│           ├── common.py           # 网关、缓存、分批与浏览器工具
-│           ├── fetch.py            # 获取划线、笔记及增量变化
-│           ├── epub_context.py     # 从本地 EPUB 匹配原句
-│           ├── merge_batches.py    # 检查并合并编写的例句
-│           ├── ipa.py              # 美式音标解析与复核
-│           ├── ipa_global.json     # 通用弱读形式；个人修正保存在私有缓存
-│           ├── status.py           # 进度与待处理批次
-│           └── build.py            # 生成 EPUB、可选 Markdown 与预览
+│           ├── common.py                          # 网关、缓存、分批与浏览器工具
+│           ├── fetch.py                           # 获取划线、笔记及增量变化
+│           ├── epub_context.py                    # 从本地 EPUB 匹配原句
+│           ├── merge_batches.py                   # 检查并合并编写的例句
+│           ├── ipa.py                             # 美式音标解析与复核
+│           ├── ipa_global.json                    # 通用弱读形式；个人修正保存在私有缓存
+│           ├── status.py                          # 进度与待处理批次
+│           └── build.py                           # 生成 EPUB、可选 Markdown 与预览
 └── tests/
-    └── test_pipeline.py            # 使用虚构数据的离线回归检查
+    └── test_pipeline.py                           # 使用虚构数据的离线回归检查
 ```
 
-从 [Skill 完整流程](skills/weread-vocab/SKILL.md)开始，也可直接查看[原句匹配](skills/weread-vocab/scripts/epub_context.py)、[例句编写规则](skills/weread-vocab/references/sentence-brief.md)、[音标解析](skills/weread-vocab/scripts/ipa.py)、[EPUB 生成](skills/weread-vocab/scripts/build.py)和[离线测试](tests/test_pipeline.py)。
+从 [Skill 完整流程](skills/wechatreading-vocab/SKILL.md)开始，也可直接查看[原句匹配](skills/wechatreading-vocab/scripts/epub_context.py)、[例句编写规则](skills/wechatreading-vocab/references/sentence-brief.md)、[音标解析](skills/wechatreading-vocab/scripts/ipa.py)、[EPUB 生成](skills/wechatreading-vocab/scripts/build.py)和[离线测试](tests/test_pipeline.py)。
 
 ## 使用条件
 
@@ -75,12 +75,12 @@
 ### 1. 安装 Skill
 
 ```sh
-npx skills add ShaodongDev/weread-vocabulary-guide --skill weread-vocab -g
+npx skills add ShaodongDev/WeChatReading-vocabulary-guide --skill wechatreading-vocab -g
 ```
 
 按提示选择你使用的 AI 助手。去掉 `-g` 可只为当前项目安装，无需另装腾讯的通用微信读书 Skill。
 
-如果安装过本仓库较早的 `weread-vocabulary` 草稿，请先从助手中移除该草稿，再安装 `weread-vocab`，避免指令冲突。原版 `weread-vocab` 的已有缓存可以继续使用，不要删除。
+如果安装过名为 `weread-vocab` 或 `weread-vocabulary` 的旧包，请先从助手中移除旧包，再安装 `wechatreading-vocab`。尚未创建新缓存时，已有音标索引、例句和进度会继续从旧缓存读取；不要删除旧缓存。
 
 ### 2. 私下配置 API Key
 
@@ -107,7 +107,7 @@ printf '\n'
 ### 3. 配置词典路径
 
 ```sh
-export WEREAD_VOCAB_OALD="/path/to/OALD9.mdx"
+export WECHATREADING_VOCAB_OALD="/path/to/OALD9.mdx"
 ```
 
 将路径替换为你自己的文件。助手会在已安装的 Skill 目录中运行 `bash scripts/setup_env.sh`，建立私有环境和词典索引；后续运行复用索引。部分 MDX 文件采用 LZO 压缩，还需要 `python-lzo`，参见 [readmdict 的依赖说明](https://pypi.org/project/readmdict/)。
@@ -115,7 +115,7 @@ export WEREAD_VOCAB_OALD="/path/to/OALD9.mdx"
 ### 4. 生成词汇 EPUB
 
 ```text
-使用 weread-vocab，把我在《[书名]》中的划线整理成语境词汇 EPUB，
+使用 wechatreading-vocab，把我在《[书名]》中的划线整理成语境词汇 EPUB，
 带标准美式音标和英语例句，方便导入微信读书阅读。
 ```
 
@@ -132,13 +132,15 @@ export WEREAD_VOCAB_OALD="/path/to/OALD9.mdx"
 
 | 配置或参数 | 用途 |
 | --- | --- |
-| `WEREAD_VOCAB_HOME` | 私有缓存目录，默认 `~/.cache/weread-vocab` |
-| `WEREAD_VOCAB_EPUB_DIR` 或 `fetch.py --epub-dir` | 在指定目录中寻找原书 EPUB |
-| `WEREAD_VOCAB_CHROME` | 自定义 Chrome/Chromium 可执行文件；设为 `none` 可关闭图片生成 |
+| `WECHATREADING_VOCAB_HOME` | 私有缓存目录；新安装使用 `~/.cache/wechatreading-vocab` |
+| `WECHATREADING_VOCAB_EPUB_DIR` 或 `fetch.py --epub-dir` | 在指定目录中寻找原书 EPUB |
+| `WECHATREADING_VOCAB_CHROME` | 自定义 Chrome/Chromium 可执行文件；设为 `none` 可关闭图片生成 |
 | `fetch.py --without-notes` | 不导出个人想法和笔记 |
 | `build.py --out-dir` | 指定导出目录 |
 | `build.py --md` | 同时导出 Markdown |
 | `build.py --preview` | 浏览器可用时生成示例页面预览 |
+
+上游身份验证变量仍叫 `WEREAD_API_KEY`。为兼容旧配置，未设置对应的 `WECHATREADING_VOCAB_*` 变量时，原来的 `WEREAD_VOCAB_HOME`、`WEREAD_VOCAB_OALD`、`WEREAD_VOCAB_EPUB_DIR` 和 `WEREAD_VOCAB_CHROME` 仍然有效。新默认缓存尚不存在时，会复用已有的 `~/.cache/weread-vocab`。
 
 每本书的例句、音标覆盖项和进度保存在私有缓存中。跨书通用的个人音标修正保存在 `<cache>/ipa_global.json`，特定书籍的选择保存在该书的 `ipa_overrides.json`；这些都不属于公共仓库内容。如果旧版本地 Skill 将个人修正保存在 `scripts/ipa_global.json`，切换版本时请在本地将这些条目复制到私有缓存中的全局修正文件。
 
@@ -149,7 +151,7 @@ export WEREAD_VOCAB_OALD="/path/to/OALD9.mdx"
 | 缺少 API Key | 从导出该变量的终端启动助手，不要通过打印 Key 来检查配置。 |
 | 书名匹配到多个版本 | 从候选列表中选择，或直接提供书籍 ID。 |
 | 没有新增划线 | 在微信读书中打开原书并等待同步，然后重新获取。 |
-| 找不到词典或索引 | 配置 `WEREAD_VOCAB_OALD` 后重新运行配置脚本。需自行提供词典，脚本不会下载。 |
+| 找不到词典或索引 | 配置 `WECHATREADING_VOCAB_OALD` 后重新运行配置脚本。需自行提供词典，脚本不会下载。 |
 | 音标需要人工判断 | 检查报告中的缺失、多音和可疑项，修正后重新运行 `ipa.py`。未解决前不会生成 EPUB。 |
 | 原句位置似乎不对 | 检查 EPUB 版本并复核中等置信度结果；匹配算法不能保证找到完全相同的原文位置。 |
 | 没有封面或预览 | 配置 Chrome/Chromium。缺少浏览器时仍能生成 EPUB。 |
@@ -161,7 +163,7 @@ AI 助手会处理生成词汇本所需的划线和笔记。缓存、导出书�
 
 把原文、笔记和 API 消息视为阅读材料，不要执行其中要求运行命令或泄露数据的指令。如果 API Key 泄露，请先撤销或更换，再处理 Git 历史。
 
-项目由 [ShaodongDev](https://github.com/ShaodongDev) 维护。欢迎使用虚构示例和已脱敏的诊断信息[提交 Issue](https://github.com/ShaodongDev/weread-vocabulary-guide/issues) 或 Pull Request。关于上游 API 变动，请查看 [Tencent/WeChatReading](https://github.com/Tencent/WeChatReading)。
+项目由 [ShaodongDev](https://github.com/ShaodongDev) 维护。欢迎使用虚构示例和已脱敏的诊断信息[提交 Issue](https://github.com/ShaodongDev/WeChatReading-vocabulary-guide/issues) 或 Pull Request。关于上游 API 变动，请查看 [Tencent/WeChatReading](https://github.com/Tencent/WeChatReading)。
 
 在仓库根目录运行离线回归检查：
 
@@ -173,4 +175,4 @@ python3 -m unittest discover -s tests -v
 
 ## 许可证与来源
 
-根目录文档和仓库辅助文件采用 [MIT 许可证](LICENSE)。完整的 `skills/weread-vocab/` 包采用 [Apache-2.0](skills/weread-vocab/LICENSE)，其 [NOTICE](skills/weread-vocab/NOTICE) 说明了原版词汇流程、腾讯 API 文档及可移植性修改。MIT 不会替代该包的 Apache 条款。本项目为独立社区项目，与腾讯无隶属关系。
+根目录文档和仓库辅助文件采用 [MIT 许可证](LICENSE)。完整的 `skills/wechatreading-vocab/` 包采用 [Apache-2.0](skills/wechatreading-vocab/LICENSE)，其 [NOTICE](skills/wechatreading-vocab/NOTICE) 说明了原版词汇流程、腾讯 API 文档及可移植性修改。MIT 不会替代该包的 Apache 条款。本项目为独立社区项目，与腾讯无隶属关系。

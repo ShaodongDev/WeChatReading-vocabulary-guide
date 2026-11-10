@@ -1,4 +1,4 @@
-# WeRead API reference for vocabulary review
+# WeChatReading API reference for vocabulary review
 
 Adapted and reorganized by ShaodongDev from Tencent/WeChatReading's `skills/SKILL.md` and `skills/notes.md` at revision `d98e66ee60a8c7bcd35da549d0643c4470439643`. This reference describes notebook discovery, highlights, and the user's personal thoughts for the original vocabulary-in-context workflow. Copyright (C) 2026 Tencent. See the package [NOTICE](../NOTICE) and [Apache-2.0 license](../LICENSE).
 

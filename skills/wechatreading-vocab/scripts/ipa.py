@@ -1,7 +1,7 @@
 """American IPA for every term, from the user's OALD9 (NAmE transcriptions).
 
 usage:
-  <venv python> ipa.py --build-index     # once: OALD9.mdx -> ~/.cache/weread-vocab/oald9_index.json
+  <venv python> ipa.py --build-index     # once: OALD9.mdx -> ~/.cache/wechatreading-vocab/oald9_index.json
   python3 ipa.py <workdir>               # resolve all terms -> <workdir>/ipa.json + report
 
 Resolution order per word: book overrides (<workdir>/ipa_overrides.json "words"),
@@ -24,7 +24,7 @@ import sys
 import types
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from common import CACHE, load, save  # noqa: E402
+from common import CACHE, load, save, setting  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 INDEX = os.path.join(CACHE, "oald9_index.json")
@@ -34,11 +34,11 @@ STRONG = {"a": "eɪ", "an": "æn", "the": "ðiː", "are": "ɑːr", "was": "wʌz"
 
 # ---------------------------------------------------------------- index build
 def find_oald():
-    env = os.environ.get("WEREAD_VOCAB_OALD")
+    env = setting("OALD")
     if env:
         path = os.path.expanduser(env)
         if not os.path.isfile(path):
-            sys.exit("WEREAD_VOCAB_OALD does not point to an existing OALD9.mdx file.")
+            sys.exit("WECHATREADING_VOCAB_OALD does not point to an existing OALD9.mdx file.")
         return path
     return None
 
@@ -68,7 +68,7 @@ def strip(h):
 def build_index():
     path = find_oald()
     if not path:
-        sys.exit("OALD9.mdx not found. Set WEREAD_VOCAB_OALD=/path/to/OALD9.mdx")
+        sys.exit("OALD9.mdx not found. Set WECHATREADING_VOCAB_OALD=/path/to/OALD9.mdx")
     mdx = load_readmdict().MDX(path)
     prons, links = {}, {}
     for k, v in mdx.items():

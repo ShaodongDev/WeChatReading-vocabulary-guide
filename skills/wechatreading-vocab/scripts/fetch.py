@@ -1,4 +1,4 @@
-"""Fetch one book's highlights and notes from WeRead into the work directory.
+"""Fetch one book's highlights and notes from WeChatReading into the work directory.
 
 usage:
   fetch.py --title "Example Book"            # match against books that have notes
@@ -19,7 +19,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from common import (MAX_TERM_WORDS, api, chapter_order, load, save, word_count,  # noqa: E402
+from common import (MAX_TERM_WORDS, api, chapter_order, load, save, setting, word_count,  # noqa: E402
                     workdir, write_batches)
 
 
@@ -78,7 +78,7 @@ STOP = {"the", "a", "an", "of", "and", "to", "in", "on", "for", "with", "edition
 
 def epub_candidates(title, author, directory=None):
     """Local .epub files whose name shares most of the title's significant words."""
-    directory = directory or os.environ.get("WEREAD_VOCAB_EPUB_DIR")
+    directory = directory or setting("EPUB_DIR")
     if directory:
         folder = Path(directory).expanduser()
         paths = [str(p) for p in folder.rglob("*.epub")] if folder.is_dir() else []
@@ -96,7 +96,8 @@ def epub_candidates(title, author, directory=None):
         return []
     hits = []
     for p in paths:
-        if "Vocabulary in Context" in p or "/.cache/weread-vocab/" in p:
+        if "Vocabulary in Context" in p or any(cache in p for cache in
+                ("/.cache/wechatreading-vocab/", "/.cache/weread-vocab/")):
             continue                       # our own output, not the source book
         nw = set(toks(os.path.basename(p)))
         score = sum(1 for w in tw if w in nw) / len(tw)

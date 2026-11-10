@@ -1,4 +1,4 @@
-/* WeRead-friendly: em units only, no backgrounds, tables, floats or flex.
+/* WeChatReading-friendly: em units only, no backgrounds, tables, floats or flex.
    Colours are mid-tones so they stay readable in light, green and dark themes. */
 
 html, body { line-height: 1.7; font-size: 100%; }
@@ -47,7 +47,7 @@ h1 {
   font-style: italic;
 }
 
-/* my own WeRead notes */
+/* my own WeChatReading notes */
 .note p {
   margin: 0.5em 0 0;
   padding-left: 0.8em;

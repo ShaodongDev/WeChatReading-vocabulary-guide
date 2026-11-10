@@ -1,4 +1,4 @@
-WeRead Vocabulary in Context (weread-vocab)
+WeChatReading Vocabulary in Context (wechatreading-vocab)
 
 Original vocabulary-in-context workflow, scripts, and assets:
 Copyright (c) 2026 ShaodongDev.
@@ -14,7 +14,10 @@ notes, and incremental caches. The skill instructions and scripts were modified
 for configurable dictionary/browser paths, a self-contained gateway version,
 private cache files, checked pagination, and synthetic validation. Personal
 reading examples, dictionary data, and the original personal override list
-are not included. assets/cover.html and assets/weread.css retain the original
+are not included. assets/cover.html and assets/wechatreading.css retain the original
 presentation. The package is distributed under Apache-2.0; see LICENSE.
+
+This edition uses the official WeChatReading terminology. Earlier configuration
+names and cached state remain compatible.
 
 This is an independent community project, not an official Tencent product.

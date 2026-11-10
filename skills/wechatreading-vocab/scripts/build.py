@@ -1,9 +1,9 @@
-"""Build the WeRead-friendly EPUB (and optionally a Markdown copy) from the work directory.
+"""Build the WeChatReading-friendly EPUB (and optionally a Markdown copy) from the work directory.
 
 usage: build.py <workdir> [--out-dir ~/Desktop] [--md] [--preview]
 
 Needs book.json, terms.json, sentences.json and ipa.json in <workdir>.
---preview renders the first chapters in WeRead-like green and dark themes to
+--preview renders the first chapters in WeChatReading-like green and dark themes to
 <workdir>/preview/*.png so the result can be checked before handing it over.
 """
 import argparse
@@ -25,7 +25,7 @@ from common import SKILL_DIR, browser_path, chapter_order, load, word_count, MAX
 def render_png(browser, source, destination, size, scale=1):
     browser_env = os.environ.copy()
     browser_env.pop("WEREAD_API_KEY", None)
-    with tempfile.TemporaryDirectory(prefix="weread-browser-") as profile:
+    with tempfile.TemporaryDirectory(prefix="wechatreading-browser-") as profile:
         try:
             subprocess.run([browser, "--headless=new", "--disable-gpu", "--hide-scrollbars",
                             "--disable-background-networking", f"--user-data-dir={profile}",
@@ -126,7 +126,7 @@ def main():
     parts += ['<div class="intro">',
               "<p><b>Word</b>: what I highlighted, followed by its American IPA.</p>", src_line,
               "<p><b>Longer highlights</b> are shown as quotes with a vertical bar, the same as in the book.</p>",
-              "<p><b>Notes</b> I wrote in WeRead appear in small type below the highlight they belong to.</p></div>",
+              "<p><b>Notes</b> I wrote in WeChatReading appear in small type below the highlight they belong to.</p></div>",
               '<div class="small"><p>Pronunciation: American (NAmE) IPA from the <em>Oxford Advanced Learner’s '
               "Dictionary</em>, 9th edition. Plurals and -ed/-ing forms that the dictionary doesn’t list are built from "
               "the base word. Names are transcribed by hand in the same style. Small words such as <em>a</em>, "
@@ -217,15 +217,15 @@ creator:
   text: {q(author or "Unknown")}
 lang: en
 date: "{datetime.date.today().isoformat()}"
-description: "My WeRead highlights, with an example sentence and American IPA for every word."
+description: "My WeChatReading highlights, with an example sentence and American IPA for every word."
 ...
 """, encoding="utf-8")
     safe = re.sub(r'[\\/:*?"<>|]+', "", st).strip()
-    safe = safe or "WeRead Vocabulary"
+    safe = safe or "WeChatReading Vocabulary"
     os.makedirs(os.path.expanduser(a.out_dir), exist_ok=True)
     out = os.path.join(os.path.expanduser(a.out_dir), f"{safe} - Vocabulary in Context.epub")
     cmd = ["pandoc", os.path.join(build, "book.html"), "-f", "html", "-t", "epub3", "--metadata-file", meta,
-           "--css", os.path.join(SKILL_DIR, "assets", "weread.css"), "--split-level=1", "--toc-depth=1", "-o", out]
+           "--css", os.path.join(SKILL_DIR, "assets", "wechatreading.css"), "--split-level=1", "--toc-depth=1", "-o", out]
     if cover:
         cmd[-2:-2] = ["--epub-cover-image", cover]
     subprocess.run(cmd, check=True)

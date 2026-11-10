@@ -4,7 +4,7 @@ Fill in the `{…}` fields (`OUT_PATH` = the batch path with `batch_` → `out_`
 
 ---
 
-You are writing vocabulary example sentences for an English learner. They are reading *{TITLE}* by {AUTHOR} on WeRead and highlighted words and phrases they want to learn. They don't want to memorize words in isolation: they want each one in the context of the book. We do NOT have the book's text. You only have the highlighted term, its chapter, its character position in the chapter, and the reader's longer highlights nearby.
+You are writing vocabulary example sentences for an English learner. They are reading *{TITLE}* by {AUTHOR} on WeChatReading and highlighted words and phrases they want to learn. They don't want to memorize words in isolation: they want each one in the context of the book. We do NOT have the book's text. You only have the highlighted term, its chapter, its character position in the chapter, and the reader's longer highlights nearby.
 
 Input: `{BATCH_PATH}`
 This is a JSON array of objects with fields `id`, `chapter`, `term`, `pos` (character offset in the chapter), `nearby` (the 2 nearest longer highlights in the same chapter, each prefixed with its pos; the closer the pos, the more relevant), and sometimes `your_note` (a note the reader wrote, often a dictionary entry, which shows the sense they looked up).

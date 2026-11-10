@@ -16,7 +16,7 @@ import urllib.error
 import zipfile
 from xml.etree import ElementTree as ET
 
-SCRIPTS = Path(__file__).resolve().parents[1] / "skills/weread-vocab/scripts"
+SCRIPTS = Path(__file__).resolve().parents[1] / "skills/wechatreading-vocab/scripts"
 sys.path.insert(0, str(SCRIPTS))
 import common
 import fetch
@@ -35,14 +35,14 @@ def run_main(module, *args):
 
 class PipelineTests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory(prefix="weread-offline-")
+        self.temp = tempfile.TemporaryDirectory(prefix="wechatreading-offline-")
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         self.cache = self.root / "cache"
         for patcher in (mock.patch.object(common, "CACHE", str(self.cache)),
                         mock.patch.object(ipa, "CACHE", str(self.cache)),
                         mock.patch.object(ipa, "INDEX", str(self.cache / "oald9_index.json")),
-                        mock.patch.dict(os.environ, {"WEREAD_VOCAB_CHROME": "none"})):
+                        mock.patch.dict(os.environ, {"WECHATREADING_VOCAB_CHROME": "none"})):
             patcher.start()
             self.addCleanup(patcher.stop)
         self.wd = Path(common.workdir("fixture"))
@@ -191,14 +191,36 @@ class PipelineTests(unittest.TestCase):
 
     def test_setup_reuses_existing_index_without_creating_dependency_environment(self):
         setup_env = os.environ.copy()
-        setup_env["WEREAD_VOCAB_HOME"] = str(self.cache)
-        setup_env.pop("WEREAD_VOCAB_OALD", None)
+        setup_env["WECHATREADING_VOCAB_HOME"] = str(self.cache)
+        setup_env.pop("WECHATREADING_VOCAB_OALD", None)
         setup_env.pop("WEREAD_API_KEY", None)
         result = subprocess.run(["bash", str(SCRIPTS / "setup_env.sh")], env=setup_env,
                                 capture_output=True, text=True, timeout=10)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertFalse((self.cache / "venv").exists())
         self.assertIn("ready:", result.stdout)
+
+    def test_canonical_configuration_preserves_legacy_names(self):
+        with mock.patch.dict(os.environ):
+            for name in ("HOME", "OALD", "EPUB_DIR", "CHROME"):
+                canonical = "WECHATREADING_VOCAB_" + name
+                legacy = "WEREAD_VOCAB_" + name
+                os.environ.pop(canonical, None)
+                os.environ[legacy] = "legacy-value"
+                self.assertEqual(common.setting(name), "legacy-value")
+                os.environ[canonical] = "canonical-value"
+                self.assertEqual(common.setting(name), "canonical-value")
+
+    def test_legacy_cache_is_reused_until_new_cache_exists(self):
+        current = self.root / "new-default"
+        legacy = self.root / "old-default"
+        legacy.mkdir()
+        paths = {"~/.cache/wechatreading-vocab": str(current), "~/.cache/weread-vocab": str(legacy)}
+        with mock.patch.object(common, "setting", return_value=None), \
+                mock.patch.object(common.os.path, "expanduser", side_effect=paths.__getitem__):
+            self.assertEqual(common.cache_directory(), str(legacy))
+            current.mkdir()
+            self.assertEqual(common.cache_directory(), str(current))
 
     def test_gateway_uses_header_and_top_level_version_without_another_skill(self):
         opened = mock.MagicMock()

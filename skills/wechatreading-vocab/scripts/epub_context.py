@@ -2,8 +2,8 @@
 
 usage: epub_context.py <workdir> <book.epub> [--force]
 
-How a term is placed. WeRead highlight positions are NOT plain-text offsets (images and
-markup inflate them), and WeRead's chapters don't always match the EPUB's table of
+How a term is placed. WeChatReading highlight positions are NOT plain-text offsets (images and
+markup inflate them), and WeChatReading's chapters don't always match the EPUB's table of
 contents, so neither is relied on.
   1. Every highlight, across the whole book, is in reading order (chapter, then position).
   2. The user's longer highlights are verbatim text. They are located in order through
@@ -214,7 +214,7 @@ def main():
     norm = book.translate(QUOTES)
     low = norm.lower()
 
-    # every highlight in reading order: WeRead chapter order, then position in the chapter
+    # every highlight in reading order: WeChatReading chapter order, then position in the chapter
     corder = {c["chapterUid"]: c.get("chapterIdx", c["chapterUid"]) for c in bk["chapters"]}
     pos = lambda h: int(h["range"].split("-")[0])  # noqa: E731
     hs = sorted(bk["highlights"], key=lambda h: (corder.get(h["chapterUid"], h["chapterUid"]), pos(h)))
@@ -237,7 +237,7 @@ def main():
 
     placed, review, missed = 0, [], []
     last, last_h = 0, None                     # last placed location and highlight
-    rates = []                                 # text chars per WeRead position unit, from confident picks
+    rates = []                                 # text chars per WeChatReading position unit, from confident picks
     prev_term = None
     for n, h in enumerate(hs):
         if n in anchor_at:
@@ -272,7 +272,7 @@ def main():
         # skip contents-page style lines unless nothing else exists
         cands = [o for o in cands if is_body(book, o[0]) or para_words(book, o[0]) <= 8] or cands
         same_ch = last_h is not None and last_h["chapterUid"] == h["chapterUid"] and pos(h) > pos(last_h)
-        # reading pace: text chars per WeRead position unit (WeRead counts markup/images, so usually < 1)
+        # reading pace: text chars per WeChatReading position unit (WeChatReading counts markup/images, so usually < 1)
         rate = sorted(rates[-15:])[len(rates[-15:]) // 2] if rates else 0.8
         if same_ch:                            # expected spot from the reading pace so far
             expected = last + (pos(h) - pos(last_h)) * rate
