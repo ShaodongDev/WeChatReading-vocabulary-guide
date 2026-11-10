@@ -1,0 +1,40 @@
+# Local credentials and shell configuration
+.env
+.env.*
+!.env.example
+.envrc
+.zshrc
+.zprofile
+.zshenv
+.zsh_history
+.bashrc
+.bash_profile
+.bash_history
+*.pem
+*.key
+*.p12
+*.pfx
+cookies.txt
+credentials.json
+secrets.json
+
+# Installed agent state and machine-specific metadata
+.agents/
+.codex/
+.claude/
+.skill-lock.json
+
+# Private reading data, exports, logs, and screenshots
+/private/
+/data/
+/exports/
+/output/
+/outputs/
+/logs/
+/screenshots/
+*.log
+
+# Local system and tooling files
+.DS_Store
+.venv/
+__pycache__/
