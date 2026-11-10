@@ -1,6 +1,6 @@
 # WeRead API reference for vocabulary review
 
-Adapted and reorganized by ShaodongDev from Tencent/WeChatReading's `skills/SKILL.md`, `skills/search.md`, and `skills/notes.md` at revision `d98e66ee60a8c7bcd35da549d0643c4470439643`. This reference narrows the upstream documentation to book selection, highlights, and explicitly requested personal thoughts. Copyright (C) 2026 Tencent. See the package [NOTICE](../NOTICE) and [Apache-2.0 license](../LICENSE).
+Adapted and reorganized by ShaodongDev from Tencent/WeChatReading's `skills/SKILL.md` and `skills/notes.md` at revision `d98e66ee60a8c7bcd35da549d0643c4470439643`. This reference describes notebook discovery, highlights, and the user's personal thoughts for the original vocabulary-in-context workflow. Copyright (C) 2026 Tencent. See the package [NOTICE](../NOTICE) and [Apache-2.0 license](../LICENSE).
 
 ## Transport and authentication
 
@@ -14,17 +14,17 @@ Adapted and reorganized by ShaodongDev from Tencent/WeChatReading's `skills/SKIL
 
 The documented operations below retrieve data; they still use HTTP POST because the gateway routes operations by `api_name`.
 
-## Find a book: `/store/search`
+## Find a book with notes: `/user/notebooks`
 
 ```json
-{"api_name":"/store/search","skill_version":"1.0.5","keyword":"book title","scope":10}
+{"api_name":"/user/notebooks","skill_version":"1.0.5","count":100}
 ```
 
-For an explicit book search, always send `scope=10`. Omit `count` unless the user specifies a result count; the upstream default is 15. `maxIdx` is an optional pagination cursor, initially zero.
+The response's `books[]` contains `bookId`, `book.title`, `book.author`, `noteCount` (highlight count), `reviewCount` (personal thoughts), and `sort` (pagination cursor). The scripts match the requested title against these notebooks so imported books can be found without a public-store search.
 
-The response groups results in `results[]`. Book metadata appears at `results[].books[].bookInfo`, including `bookId`, `title`, and `author`. A returned electronic-book group's `scope` may be `17` even when the request uses `10`; do not discard it because the scope values differ. `hasMore=1` indicates more results. Use the last result's `searchIdx` as the next `maxIdx` when further discovery is needed. Do not describe one page as the complete result set.
+When `hasMore=1`, take the final book's `sort` and pass it as top-level `lastSort` on the next request. Do not send `offset` or `limit`. An empty page with `hasMore=1` or a repeated cursor indicates incomplete discovery; stop rather than looping or claiming completeness.
 
-Use the actual returned `bookId`; do not derive IDs from titles or reader URLs. Show enough title/author information to resolve ambiguous editions.
+Use the actual returned `bookId`; do not derive IDs from titles or reader URLs. Ambiguous title matches are shown as candidates and require a selection. An explicit `--book-id` skips notebook discovery.
 
 ## Read highlights: `/book/bookmarklist`
 
@@ -50,9 +50,9 @@ Use a chapter lookup keyed by `chapterUid`; do not assume record order matches c
 
 No pagination parameters are documented for this endpoint. Do not invent `offset`, `limit`, or a page cursor. If the response appears truncated or inconsistent, explain the limitation rather than claiming complete coverage. If displaying timestamps, format them as dates instead of raw numbers.
 
-## Optional personal thoughts: `/review/list/mine`
+## Personal thoughts: `/review/list/mine`
 
-Use only when the user explicitly asks to include their own thoughts or reviews. A normal vocabulary request needs only the highlights endpoint, even though Tencent's general note-export workflow retrieves both kinds of content.
+The original workflow preserves the user's thoughts and notes in the EPUB. Fetch only for the selected book. `fetch.py --without-notes` skips this endpoint when the user wants highlights alone. Existing notes may be in any language; they are not automatically generated translations.
 
 ```json
 {"api_name":"/review/list/mine","skill_version":"1.0.5","bookid":"BOOK_ID","synckey":0,"count":20}
@@ -72,5 +72,4 @@ Keep `content` separate from `abstract` and from the agent's own explanation. Do
 ## Upstream sources
 
 - [Gateway instructions](https://github.com/Tencent/WeChatReading/blob/d98e66ee60a8c7bcd35da549d0643c4470439643/skills/SKILL.md)
-- [Book search](https://github.com/Tencent/WeChatReading/blob/d98e66ee60a8c7bcd35da549d0643c4470439643/skills/search.md)
 - [Highlights and personal notes](https://github.com/Tencent/WeChatReading/blob/d98e66ee60a8c7bcd35da549d0643c4470439643/skills/notes.md)

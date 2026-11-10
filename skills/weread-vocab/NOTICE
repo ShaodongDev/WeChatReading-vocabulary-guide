@@ -1,0 +1,20 @@
+WeRead Vocabulary in Context (weread-vocab)
+
+Original vocabulary-in-context workflow, scripts, and assets:
+Copyright (c) 2026 ShaodongDev.
+
+The bundled API reference adapts Tencent/WeChatReading instructions:
+https://github.com/Tencent/WeChatReading
+Source revision: d98e66ee60a8c7bcd35da549d0643c4470439643
+Source documents: skills/SKILL.md and skills/notes.md
+Original API documentation: Copyright (C) 2026 Tencent. All rights reserved.
+
+This portable edition retains American IPA, context sentences, EPUB output,
+notes, and incremental caches. The skill instructions and scripts were modified
+for configurable dictionary/browser paths, a self-contained gateway version,
+private cache files, checked pagination, and synthetic validation. Personal
+reading examples, dictionary data, and the original personal override list
+are not included. assets/cover.html and assets/weread.css retain the original
+presentation. The package is distributed under Apache-2.0; see LICENSE.
+
+This is an independent community project, not an official Tencent product.

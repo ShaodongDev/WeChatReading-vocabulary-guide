@@ -38,3 +38,16 @@ secrets.json
 .DS_Store
 .venv/
 __pycache__/
+*.pyc
+.cache/
+*.epub
+*.mdx
+*.mdd
+oald9_index.json
+book.json
+terms.json
+sentences.json
+ipa.json
+ipa_report.json
+ipa_overrides.json
+uncertain.json
