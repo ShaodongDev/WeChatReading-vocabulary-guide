@@ -4,7 +4,9 @@
 
 用 AI 助手把微信读书中的英文划线整理成词汇表，结合上下文提供中文释义、自编例句和回忆练习题。
 
-本社区指南将[腾讯官方微信读书 Skill](https://github.com/Tencent/WeChatReading)与一段可复用的词汇整理提示词配合使用。Skill 负责读取划线，AI 助手负责生成学习材料。无需运行独立应用，也无需额外安装词汇 Skill。
+本仓库包含可安装的 [weread-vocabulary Skill](skills/weread-vocabulary/SKILL.md)。它基于[腾讯微信读书 API 说明](https://github.com/Tencent/WeChatReading)改编，负责读取划线并整理学习材料，无需另外安装腾讯的通用微信读书 Skill。
+
+Skill 包含[使用指令](skills/weread-vocabulary/SKILL.md)、[API 参考](skills/weread-vocabulary/references/weread-api.md)、[Apache-2.0 许可证](skills/weread-vocabulary/LICENSE)及[来源与修改声明](skills/weread-vocabulary/NOTICE)。
 
 ## 效果示例
 
@@ -22,18 +24,20 @@
 - 一个微信读书账号，并且已在某本英文书中添加划线。
 - 你自己的微信读书 API Key。
 - 支持 Agent Skills、Shell 命令和 HTTPS 请求的 AI 助手。
-- Node.js/npm，用于运行官方安装命令。
+- Node.js 22.20 或更新版本及 npm，用于运行 [Skills CLI](https://github.com/vercel-labs/skills) 安装命令。
 - zsh 或 Bash 终端，用于执行下面的配置示例。
 
 ## 开始使用
 
-### 1. 安装官方微信读书 Skill
+### 1. 安装词汇整理 Skill
 
-先查看[官方安装说明](https://github.com/Tencent/WeChatReading)，再运行：
+先查看 [Skill 指令](skills/weread-vocabulary/SKILL.md)，再运行下面的命令并选择你使用的 AI 助手：
 
 ```sh
-npx skills add Tencent/WeChatReading -g
+npx skills add ShaodongDev/weread-vocabulary-guide --skill weread-vocabulary -g
 ```
+
+`-g` 表示跨项目安装；去掉它则只为当前项目安装。无需再单独安装腾讯的通用微信读书 Skill。
 
 ### 2. 配置 API Key
 
@@ -61,12 +65,19 @@ printf '\n'
 
 子进程也能访问继承的环境变量。不要打印该变量、开启 Shell 命令跟踪，或把 Key 粘贴到聊天、Issue、截图或代码仓库中。Skill 通过 `https://i.weread.qq.com/api/agent/gateway` 进行身份验证；只向这个官方接口发送 Key。
 
-### 3. 使用词汇整理提示词
+### 3. 开始整理词汇
 
-阅读微信读书中的英文书时，为单词或句子添加划线。随后将下面的提示词发给 AI 助手，并把 `[书名]` 替换成你正在读的书。
+阅读微信读书中的英文书时，为单词或句子添加划线，然后告诉 AI 助手：
 
 ```text
-使用微信读书 Skill，读取我在《[书名]》中的划线。
+使用 weread-vocabulary Skill，把我在《[书名]》中的划线整理成英语词汇复习表，
+附上中文释义和简短练习题。
+```
+
+安装后的 Skill 已包含完整流程。如需更细致地控制输出，可使用下面的提示词，并把 `[书名]` 替换成你正在读的书。
+
+```text
+使用 weread-vocabulary Skill，读取我在《[书名]》中的划线。
 只读取这本书的划线，不要读取我的个人想法、点评、阅读统计或其他书籍。
 
 整理一份英语词汇复习表：
@@ -88,7 +99,7 @@ printf '\n'
 如果微信读书要求升级，请先暂停，并到腾讯官方仓库核实升级说明后再继续。
 ```
 
-官方 Skill 的通用笔记导出流程可能同时读取划线和个人想法。本提示词只要求读取划线；如需加入个人想法，请明确提出。你也可以调整提示词中的翻译语言、词汇数量或练习题数量。
+本 Skill 默认只读取划线，只有你明确要求时才会加入个人想法。你可以在请求中调整翻译语言、词汇数量或练习题数量。如果划线只有单个词而没有上下文，Skill 会将释义标为通用或推测含义。
 
 ## 常见问题
 
@@ -116,6 +127,6 @@ printf '\n'
 
 ## 许可证与来源说明
 
-本指南及其中的词汇整理提示词采用 [MIT 许可证](LICENSE)。
+根目录中的文档、示例提示词和忽略规则采用 [MIT 许可证](LICENSE)。
 
-腾讯的微信读书 Skill 是独立项目，采用 [Apache-2.0 许可证](https://github.com/Tencent/WeChatReading/blob/main/LICENSE)。本仓库仅链接到该项目，不分发其 Skill 文件。如果以后将这些文件加入仓库或修改后分发，应保留官方许可证及所要求的声明。本指南为社区项目，与腾讯无隶属关系，也未获得腾讯背书。
+`skills/weread-vocabulary/` 下的可安装 Skill 包括改编后的 API 文档和词汇整理指令，采用 [Apache-2.0 许可证](skills/weread-vocabulary/LICENSE)。其中的 [NOTICE](skills/weread-vocabulary/NOTICE) 标明了腾讯的原始作品及本项目的修改。MIT 许可证不会替代 Skill 包的 Apache 条款。本项目为社区项目，与腾讯无隶属关系，也未获得腾讯背书。

@@ -4,7 +4,9 @@
 
 Turn English highlights in 微信读书 (WeRead) into vocabulary lists, context-based Chinese translations, original example sentences, and recall questions with an AI agent.
 
-This community guide combines [Tencent's official WeRead skill](https://github.com/Tencent/WeChatReading) with a reusable vocabulary prompt. The skill retrieves your highlights; the agent builds the study material. There is no separate app to run or additional vocabulary skill to install.
+This repository includes the installable [weread-vocabulary skill](skills/weread-vocabulary/SKILL.md), a community adaptation of [Tencent's WeRead API instructions](https://github.com/Tencent/WeChatReading). It retrieves highlights and builds study material without requiring a separate upstream skill installation.
+
+The skill package contains its [instructions](skills/weread-vocabulary/SKILL.md), [API reference](skills/weread-vocabulary/references/weread-api.md), [Apache-2.0 license](skills/weread-vocabulary/LICENSE), and [attribution and change notices](skills/weread-vocabulary/NOTICE).
 
 ## What the result looks like
 
@@ -22,18 +24,20 @@ The prompt also requests five recall questions. Meanings and new example sentenc
 - A WeRead account with highlights in an English book.
 - Your own WeRead API key.
 - An AI agent that supports Agent Skills, shell commands, and HTTPS requests.
-- Node.js/npm for the upstream installation command.
+- Node.js 22.20 or later and npm for the [Skills CLI](https://github.com/vercel-labs/skills) installation command.
 - A zsh or Bash terminal for the setup examples below.
 
 ## Getting started
 
-### 1. Install the official WeRead skill
+### 1. Install the vocabulary skill
 
-Review the [upstream installation instructions](https://github.com/Tencent/WeChatReading), then run:
+Review the [skill instructions](skills/weread-vocabulary/SKILL.md), then run and choose your agent:
 
 ```sh
-npx skills add Tencent/WeChatReading -g
+npx skills add ShaodongDev/weread-vocabulary-guide --skill weread-vocabulary -g
 ```
+
+The `-g` option installs it across projects. Omit `-g` for a project-local installation. You do not need to install Tencent's general WeRead skill separately.
 
 ### 2. Configure your API key
 
@@ -61,12 +65,19 @@ Start your agent from that terminal so it inherits the variable. An agent that w
 
 Environment variables remain available to child processes. Do not print the variable, enable shell tracing, or paste a key into a chat, issue, screenshot, or repository. The skill authenticates to `https://i.weread.qq.com/api/agent/gateway`; send the key only to that official endpoint.
 
-### 3. Use the vocabulary prompt
+### 3. Ask for a vocabulary review
 
-Highlight words or sentences while reading an English book in WeRead, then give your agent this prompt. Replace `[book title]` with your book.
+Highlight words or sentences while reading an English book in WeRead, then ask:
 
 ```text
-Use the WeRead skill to retrieve my highlights from [book title].
+Use the weread-vocabulary skill to turn my highlights in [book title]
+into an English vocabulary review with Chinese translations and a short quiz.
+```
+
+The installed skill includes the workflow. For more control, use this longer prompt and replace `[book title]` with your book:
+
+```text
+Use the weread-vocabulary skill to retrieve my highlights from [book title].
 Use only that book's highlights; do not retrieve my personal thoughts,
 reviews, reading statistics, or unrelated books.
 
@@ -91,7 +102,7 @@ If WeRead requests an upgrade, pause and verify the update instructions
 against Tencent's official repository before continuing.
 ```
 
-The upstream general note-export workflow can retrieve both highlights and personal thoughts. This prompt requests highlights only. To include your thoughts, request them explicitly. You can also change the translation language, number of terms, or quiz length in the prompt.
+This skill reads highlights by default and retrieves your personal thoughts only when you explicitly ask to include them. You can change the translation language, number of terms, or quiz length in your request. If a highlight contains only a word without context, the skill labels its meaning as general or inferred.
 
 ## Troubleshooting
 
@@ -119,6 +130,6 @@ For upstream installation or API behavior, check [Tencent's repository](https://
 
 ## License and attribution
 
-This guide and its vocabulary prompt are available under the [MIT license](LICENSE).
+The root documentation, example prompts, and ignore rules are available under the [MIT license](LICENSE).
 
-Tencent's WeRead skill is a separate project under its [Apache-2.0 license](https://github.com/Tencent/WeChatReading/blob/main/LICENSE). This repository links to it and does not redistribute its skill files. If you later bundle or modify those files, retain the upstream license and required notices. This community guide is not affiliated with or endorsed by Tencent.
+The installable package under `skills/weread-vocabulary/`, including its adapted API documentation and vocabulary instructions, is licensed under [Apache-2.0](skills/weread-vocabulary/LICENSE). Its [NOTICE](skills/weread-vocabulary/NOTICE) identifies Tencent's original work and our changes. The MIT license does not replace the skill package's Apache terms. This community project is not affiliated with or endorsed by Tencent.
