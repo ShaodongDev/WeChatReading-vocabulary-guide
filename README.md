@@ -21,6 +21,44 @@ This is the portable version of the original **[weread-vocab skill](skills/werea
 
 Cards use an orange accent for the term, gray IPA, and a vertical bar beside the example. The styles are designed for light, green, and dark reading themes. An optional Markdown copy is available.
 
+## Repository structure
+
+```text
+.
+├── README.md
+├── README.zh-CN.md
+├── LICENSE                         # Root documentation: MIT
+├── .gitignore
+├── docs/
+│   └── images/weread-demo.png       # WeRead demo screenshot
+├── skills/
+│   └── weread-vocab/
+│       ├── SKILL.md                # Agent instructions and workflow
+│       ├── LICENSE                 # Apache-2.0
+│       ├── NOTICE                  # Attribution and modification notices
+│       ├── assets/
+│       │   ├── cover.html          # Cover template
+│       │   └── weread.css          # EPUB reading styles
+│       ├── references/
+│       │   ├── sentence-brief.md   # Rules for written context sentences
+│       │   └── weread-api.md       # Gateway and response reference
+│       └── scripts/
+│           ├── setup_env.sh        # Private environment and dictionary index
+│           ├── requirements.txt
+│           ├── common.py           # Gateway, cache, batching, browser helpers
+│           ├── fetch.py            # Highlights, notes, and incremental changes
+│           ├── epub_context.py     # Match sentences from a local EPUB
+│           ├── merge_batches.py    # Validate and merge written sentences
+│           ├── ipa.py              # American IPA resolution and review
+│           ├── ipa_global.json     # General weak forms; personal fixes stay private
+│           ├── status.py           # Progress and pending batches
+│           └── build.py            # EPUB, optional Markdown, and previews
+└── tests/
+    └── test_pipeline.py            # Offline synthetic regression checks
+```
+
+Start with the [skill workflow](skills/weread-vocab/SKILL.md). Explore [source-sentence matching](skills/weread-vocab/scripts/epub_context.py), [sentence-writing rules](skills/weread-vocab/references/sentence-brief.md), [IPA resolution](skills/weread-vocab/scripts/ipa.py), [EPUB generation](skills/weread-vocab/scripts/build.py), or the [offline tests](tests/test_pipeline.py).
+
 ## Requirements
 
 - A WeRead account with highlighted English words or phrases and your own API key.

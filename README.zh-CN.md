@@ -21,6 +21,44 @@
 
 卡片使用橙色突出词语、灰色显示音标，并在例句旁加竖线。样式兼顾浅色、绿色和深色阅读主题，也可额外导出 Markdown。
 
+## 仓库结构
+
+```text
+.
+├── README.md
+├── README.zh-CN.md
+├── LICENSE                         # 根目录文档：MIT
+├── .gitignore
+├── docs/
+│   └── images/weread-demo.png       # 微信读书效果截图
+├── skills/
+│   └── weread-vocab/
+│       ├── SKILL.md                # 助手指令与完整流程
+│       ├── LICENSE                 # Apache-2.0
+│       ├── NOTICE                  # 来源与修改声明
+│       ├── assets/
+│       │   ├── cover.html          # 封面模板
+│       │   └── weread.css          # EPUB 阅读样式
+│       ├── references/
+│       │   ├── sentence-brief.md   # 语境例句编写规则
+│       │   └── weread-api.md       # 网关参数与返回字段参考
+│       └── scripts/
+│           ├── setup_env.sh        # 私有环境与词典索引
+│           ├── requirements.txt
+│           ├── common.py           # 网关、缓存、分批与浏览器工具
+│           ├── fetch.py            # 获取划线、笔记及增量变化
+│           ├── epub_context.py     # 从本地 EPUB 匹配原句
+│           ├── merge_batches.py    # 检查并合并编写的例句
+│           ├── ipa.py              # 美式音标解析与复核
+│           ├── ipa_global.json     # 通用弱读形式；个人修正保存在私有缓存
+│           ├── status.py           # 进度与待处理批次
+│           └── build.py            # 生成 EPUB、可选 Markdown 与预览
+└── tests/
+    └── test_pipeline.py            # 使用虚构数据的离线回归检查
+```
+
+从 [Skill 完整流程](skills/weread-vocab/SKILL.md)开始，也可直接查看[原句匹配](skills/weread-vocab/scripts/epub_context.py)、[例句编写规则](skills/weread-vocab/references/sentence-brief.md)、[音标解析](skills/weread-vocab/scripts/ipa.py)、[EPUB 生成](skills/weread-vocab/scripts/build.py)和[离线测试](tests/test_pipeline.py)。
+
 ## 使用条件
 
 - 微信读书账号、英文词语划线，以及你自己的 API Key。
