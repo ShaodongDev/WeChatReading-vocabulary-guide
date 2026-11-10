@@ -15,13 +15,11 @@ This is the portable version of the original **[weread-vocab skill](skills/werea
 - Reuses sentences and pronunciation decisions on later runs, so only new highlights need new sentence work.
 - Uses English cards by default. Chinese translations, definitions, and quizzes are added only if you request them. Existing personal notes keep their original language.
 
-An invented card, shown here as text:
+## Demo
 
-> **adapt** /əˈdæpt/
->
-> Teams **adapt** their plans when new evidence changes what they know.
+![Vocabulary cards in WeRead showing American IPA and English context sentences in the green reading theme](docs/images/weread-demo.png)
 
-The actual EPUB uses an orange accent for the term, gray IPA, and a vertical bar beside the example. Its styles are designed for light, green, and dark reading themes. An optional Markdown copy is available.
+Cards use an orange accent for the term, gray IPA, and a vertical bar beside the example. The styles are designed for light, green, and dark reading themes. An optional Markdown copy is available.
 
 ## Requirements
 
