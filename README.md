@@ -1,5 +1,7 @@
 # WeRead Vocabulary Guide
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 Turn English highlights in 微信读书 (WeRead) into vocabulary lists, context-based Chinese translations, original example sentences, and recall questions with an AI agent.
 
 This community guide combines [Tencent's official WeRead skill](https://github.com/Tencent/WeChatReading) with a reusable vocabulary prompt. The skill retrieves your highlights; the agent builds the study material. There is no separate app to run or additional vocabulary skill to install.
